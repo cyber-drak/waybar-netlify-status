@@ -17,8 +17,6 @@ Set in `netlify.env`:
 - `NETLIFY_AUTH_TOKEN`: personal access token from Netlify
 - `NETLIFY_SITE_ID`: site id from Netlify site settings
 
-Append `style.css` to `~/.config/waybar/style.css`. Module color follows the JSON `class`: `ready`, `building`, `error`.
-
 ## Waybar
 
 ```jsonc
@@ -36,6 +34,14 @@ Reload:
 ```bash
 killall -SIGUSR2 waybar
 ```
+
+## Behavior
+
+Status text comes from the Netlify deploy `state` (uppercased). `ready` is shown as `OK`.
+
+Icons are mapped for `ready`, `enqueued`, `building`, and `error`; any other state uses a default icon.
+
+The tooltip includes commit, branch, author, created time, and deploy time.
 
 ## License
 

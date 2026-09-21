@@ -5,7 +5,7 @@ source "$SCRIPT_DIR/netlify.env"
 
 fail() {
   jq -cn --arg text $'\uf057' \
-    '{text: $text, class: "error", tooltip: "Netlify: API unavailable"}'
+    '{text: $text, tooltip: "Netlify: API unavailable"}'
   exit 0
 }
 
@@ -26,23 +26,18 @@ deploy_time=$(jq -r '.deploy_time // 0' <<<"$deploy")
 error=$(jq -r '.error_message // empty' <<<"$deploy")
 
 case "$state" in
-  ready)
-    icon=$'\uf058'
-    label="OK"
-    ;;
-  building)
-    icon=$'\uf110'
-    label="BUILDING"
-    ;;
-  error)
-    icon=$'\uf057'
-    label="FAILED"
-    ;;
-  *)
-    icon=$'\uf05a'
-    label="${state^^}"
-    ;;
+  ready)    icon=$'\uf058' ;;
+  enqueued) icon=$'\uf017' ;;
+  building) icon=$'\uf110' ;;
+  error)    icon=$'\uf057' ;;
+  *)        icon=$'\uf05a' ;;
 esac
+
+if [[ "$state" == "ready" ]]; then
+  label="OK"
+else
+  label="${state^^}"
+fi
 
 tooltip="$icon $label
 $title
@@ -57,6 +52,5 @@ Deploy time: ${deploy_time}s"
 
 jq -cn \
   --arg text "$icon $label" \
-  --arg class "$class" \
   --arg tooltip "$tooltip" \
-  '{text: $text, class: $class, tooltip: $tooltip}'
+  '{text: $text, tooltip: $tooltip}'
