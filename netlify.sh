@@ -29,22 +29,18 @@ case "$state" in
   ready)
     icon=$'\uf058'
     label="OK"
-    class="ready"
     ;;
   building)
     icon=$'\uf110'
     label="BUILDING"
-    class="building"
     ;;
   error)
     icon=$'\uf057'
     label="FAILED"
-    class="error"
     ;;
   *)
     icon=$'\uf05a'
     label="${state^^}"
-    class="unknown"
     ;;
 esac
 
