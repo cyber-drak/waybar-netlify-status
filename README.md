@@ -4,6 +4,10 @@ Waybar custom module that shows the latest Netlify deploy status.
 
 Requires `curl`, `jq`, and Font Awesome 6 Free Solid in the Waybar font stack.
 
+## Preview
+
+![Preview](preview.png)
+
 ## Setup
 
 ```bash
