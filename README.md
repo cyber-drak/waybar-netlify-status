@@ -1,6 +1,6 @@
 # waybar-netlify-status
 
-Waybar custom module that shows the latest Netlify deploy status.
+Waybar custom module that shows the latest Netlify deploy status for multiple sites.
 
 Requires `curl`, `jq`, and Font Awesome 6 Free Solid in the Waybar font stack.
 
@@ -11,15 +11,29 @@ Requires `curl`, `jq`, and Font Awesome 6 Free Solid in the Waybar font stack.
 ## Setup
 
 ```bash
-cp netlify.env.example netlify.env
-chmod 600 netlify.env
+cp .env.example .env
+chmod 600 .env
 chmod +x netlify.sh
 ```
 
-Set in `netlify.env`:
+Set in `.env`:
 
-- `NETLIFY_AUTH_TOKEN`: personal access token from Netlify
-- `NETLIFY_SITE_ID`: site id from Netlify site settings
+```bash
+NETLIFY_AUTH_TOKEN="your_token"
+
+NETLIFY_SITES=(
+  "website:your_site_id"
+  "void:your_site_id"
+)
+```
+
+`NETLIFY_SITES` uses the format:
+
+```text
+name:site_id
+```
+
+The site ID can be found in the Netlify site settings.
 
 ## Waybar
 
@@ -41,11 +55,13 @@ killall -SIGUSR2 waybar
 
 ## Behavior
 
-Status text comes from the Netlify deploy `state` (uppercased). `ready` is shown as `OK`.
+The module shows the overall status of all configured sites.
 
-Icons are mapped for `ready`, `enqueued`, `building`, and `error`; any other state uses a default icon.
+`ready` is shown as `OK`.
 
-The tooltip includes commit, branch, author, created time, and deploy time.
+Icons are mapped for `ready`, `enqueued`, `building`, and `error`. Other states use a default icon.
+
+The tooltip shows each site's status, deploy title, branch, commit, author, created time, and deploy time.
 
 ## License
 
